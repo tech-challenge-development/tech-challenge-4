@@ -11,7 +11,7 @@ pg = st.navigation([
 ])
 
 with st.sidebar:
-    st.markdown("<h3 style='margin-bottom: 0px; padding-bottom: 0px; color: #d94e41;'>Data Analytics - Turma 10DTAT - Grupo 56</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='margin-bottom: 0px; padding-bottom: 0px;'>Data Analytics - Turma 10DTAT - Grupo 56</h3>", unsafe_allow_html=True)
     st.divider()
     st.markdown("""
     *Evandro Anholeto*  
