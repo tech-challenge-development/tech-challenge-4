@@ -57,4 +57,3 @@ streamlit run home.py
 O navegador abrirá automaticamente no endereço `http://localhost:8501`.
 
 ---
-**Equipe:** Grupo 56 - Turma 10DTAT
