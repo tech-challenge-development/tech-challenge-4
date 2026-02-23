@@ -72,23 +72,45 @@ if submitted:
     # Preparar dados para o modelo (DataFrame com as colunas esperadas)
     data = {
         'Gender': [map_gender[gender]], 'Age': [age], 'Height': [height], 'Weight': [weight],
-        'family_history_with_overweight': [map_yes_no[family_history]], 'FAVC': [map_yes_no[favc]], 'FCVC': [fcvc],
-        'NCP': [ncp], 'CAEC': [map_caec_calc[caec]], 'SMOKE': [map_yes_no[smoke]], 'CH2O': [ch2o], 'SCC': [map_yes_no[scc]],
-        'FAF': [faf], 'TUE': [tue], 'CALC': [map_caec_calc[calc]], 'MTRANS': [map_mtrans[mtrans]]
+        'family_history': [map_yes_no[family_history]], 'FAVC': [map_yes_no[favc]], 'FCVC': [float(fcvc)],
+        'NCP': [float(ncp)], 'CAEC': [map_caec_calc[caec]], 'SMOKE': [map_yes_no[smoke]], 'CH2O': [float(ch2o)], 'SCC': [map_yes_no[scc]],
+        'FAF': [float(faf)], 'TUE': [float(tue)], 'CALC': [map_caec_calc[calc]], 'MTRANS': [map_mtrans[mtrans]]
     }
     df_input = pd.DataFrame(data)
     
     st.divider()
     st.markdown("### Resultado da Análise")
     
-    # Fallback: Cálculo de IMC simples para demonstração
-    imc = weight / (height ** 2)
-    st.info("Modo de Demonstração (Modelo não carregado)")
-    st.metric("IMC Calculado", f"{imc:.2f}")
+    model_path = 'modelo_obesity.joblib'
+    le_path = 'label_encoder_obesity.joblib'
 
-    print(smoke)
-    
-    if imc < 18.5: st.warning("Classificação IMC: Abaixo do peso")
-    elif imc < 25: st.success("Classificação IMC: Peso normal")
-    elif imc < 30: st.warning("Classificação IMC: Sobrepeso")
-    else: st.error("Classificação IMC: Obesidade")
+    try:
+        # Carregar modelo e label encoder
+        loaded_model = joblib.load(model_path)
+        le = joblib.load(le_path)
+
+        # Fazer a predição
+        prediction = loaded_model.predict(df_input)
+        prediction_proba = loaded_model.predict_proba(df_input)
+        
+        # Obter o rótulo da predição e a confiança
+        confidence = max(prediction_proba[0]) * 100
+        prediction_label = le.inverse_transform(prediction)[0]
+
+        # Exibir o resultado
+        st.metric("Nível de Obesidade Previsto", f"{prediction_label}", f"Confiança: {confidence:.2f}%")
+
+        # Adicionar uma mensagem colorida com base no resultado
+        if "Obesity" in prediction_label:
+            st.error(f"O modelo indica um alto risco, classificando o paciente como: **{prediction_label}**.")
+        elif "Overweight" in prediction_label:
+            st.warning(f"O modelo indica um risco moderado, classificando o paciente como: **{prediction_label}**.")
+        else:
+            st.success(f"O modelo indica um baixo risco, classificando o paciente como: **{prediction_label}**.")
+
+    except FileNotFoundError:
+        st.error("ERRO: Arquivos do modelo ('modelo_obesity.joblib', 'label_encoder_obesity.joblib') não encontrados na pasta raiz do projeto.")
+        st.info("Executando em modo de demonstração com base no IMC.")
+
+    except Exception as e:
+        st.error(f"Ocorreu um erro inesperado durante a predição: {e}")
