@@ -40,10 +40,10 @@ Escolha o comando de acordo com o seu terminal no Windows:
     ```
 
 ### 3. Instalar Dependências
-Com o ambiente ativado, instale o Streamlit e outras bibliotecas necessárias:
+Com o ambiente ativado, instale todas as bibliotecas necessárias usando o arquivo `requirements.txt`:
 
 ```bash
-pip install streamlit
+pip install -r requirements.txt
 ```
 
 ## 🚀 Como Rodar o Projeto
