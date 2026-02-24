@@ -63,13 +63,11 @@ with st.form("form_predicao"):
     submitted = st.form_submit_button("🔍 Analisar Risco")
 
 if submitted:
-    # Mapeamento para os valores esperados pelo modelo (inglês/original)
     map_gender = {"Masculino": "Male", "Feminino": "Female"}
     map_yes_no = {"Sim": "yes", "Não": "no"}
     map_caec_calc = {"Não": "no", "Às vezes": "Sometimes", "Frequentemente": "Frequently", "Sempre": "Always"}
     map_mtrans = {"Carro": "Automobile", "Moto": "Motorbike", "Bicicleta": "Bike", "Transporte público": "Public_Transportation", "Caminhada": "Walking"}
 
-    # Preparar dados para o modelo (DataFrame com as colunas esperadas)
     data = {
         'Gender': [map_gender[gender]], 'Age': [age], 'Height': [height], 'Weight': [weight],
         'family_history': [map_yes_no[family_history]], 'FAVC': [map_yes_no[favc]], 'FCVC': [float(fcvc)],
@@ -85,28 +83,29 @@ if submitted:
     le_path = 'label_encoder_obesity.joblib'
 
     try:
-        # Carregar modelo e label encoder
         loaded_model = joblib.load(model_path)
         le = joblib.load(le_path)
 
-        # Fazer a predição
         prediction = loaded_model.predict(df_input)
         prediction_proba = loaded_model.predict_proba(df_input)
         
-        # Obter o rótulo da predição e a confiança
-        confidence = max(prediction_proba[0]) * 100
         prediction_label = le.inverse_transform(prediction)[0]
 
-        # Exibir o resultado
-        st.metric("Nível de Obesidade Previsto", f"{prediction_label}", f"Confiança: {confidence:.2f}%")
-
-        # Adicionar uma mensagem colorida com base no resultado
-        if "Obesity" in prediction_label:
-            st.error(f"O modelo indica um alto risco, classificando o paciente como: **{prediction_label}**.")
-        elif "Overweight" in prediction_label:
-            st.warning(f"O modelo indica um risco moderado, classificando o paciente como: **{prediction_label}**.")
+        if "OBESITY" in prediction_label.upper() or "OVERWEIGHT" in prediction_label.upper():
+            resultado_obesidade = "Sim"
         else:
-            st.success(f"O modelo indica um baixo risco, classificando o paciente como: **{prediction_label}**.")
+            resultado_obesidade = "Não"
+
+        if resultado_obesidade == "Sim":
+            st.error("""
+            ### Risco Elevado de Obesidade
+            A análise dos dados inseridos indica uma alta probabilidade de o paciente estar em uma faixa de obesidade.
+            """)
+        else:
+            st.success("""
+            ### Baixo Risco de Obesidade
+            Com base nos dados fornecidos, o modelo prevê um baixo risco de o paciente estar em uma faixa de obesidade.
+            """)
 
     except FileNotFoundError:
         st.error("ERRO: Arquivos do modelo ('modelo_obesity.joblib', 'label_encoder_obesity.joblib') não encontrados na pasta raiz do projeto.")
