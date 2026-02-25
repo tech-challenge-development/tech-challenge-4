@@ -4,7 +4,6 @@ from PIL import Image
 
 def show():
     st.markdown("<h1 style='color: #d94e41; text-align: center;'>Modelo Preditivo</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center; font-size: 1.2em;'>Traduzindo dados científicos em insights estratégicos para a saúde.</p>", unsafe_allow_html=True)
     st.divider()
 
     st.write("""
@@ -12,18 +11,6 @@ def show():
     baseando-se em seus hábitos de vida, características demográficas e físicas.
     """)
 
-    # --- Resumo Executivo ---
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric("Modelo", "XGBoost")
-    with col2:
-        st.metric("Acurácia Geral", "96%", "+1.5%")
-    with col3:
-        st.metric("Confiabilidade", "Excelente")
-
-    st.divider()
-
-    # --- Dicionário de Dados ---
     st.header("📖 Dicionário de Dados")
     with st.container(border=True):
         st.markdown("""
@@ -47,7 +34,7 @@ def show():
         - **CALC (Álcool)**: Consumo de bebida alcoólica (no, Sometimes, Frequently, Always).
         - **MTRANS (Transporte)**: Meio de transporte habitual (Automobile, Motorbike, Bike, Public_Transportation, Walking).
 
-        ### Variável Alvo (Label)
+        ### Variável Alvo
         - **Obesity (Nível de Obesidade)**: 
             - *Insufficient_Weight* (Abaixo do peso)
             - *Normal_Weight* (Peso normal)
@@ -58,72 +45,108 @@ def show():
             - *Obesity_Type_III* (Obesidade III)
         """)
 
+    st.divider()
 
-    # --- O Que Direciona o Modelo? ---
+    st.header("🤖 A Inteligência por trás da Decisão")
+    with st.container(border=True):
+        st.write("""
+        Para este desafio, selecionamos o **XGBoost**, uma das machine learning mais avançadas e respeitadas em ciência de dados. 
+        
+        Imagine o XGBoost como um **"Conselho de Especialistas Digital"**.
+        Em vez de uma única análise, ele cria centenas de pequenos analistas que trabalham em conjunto. 
+        O grande diferencial é que cada novo "especialista" aprende com as dificuldades do anterior, refinando as previsões sucessivamente. 
+        
+        Essa abordagem de **Refinamento Contínuo** é o que permite ao modelo atingir uma precisão cirúrgica, sendo ideal para lidar com a complexidade dos múltiplos fatores que influenciam a saúde e o peso.
+        """)
+
+        try:
+            img_xgboost = Image.open('xgboot.png')
+            st.image(img_xgboost, caption="Funcionamento do algoritmo XGBoost", use_container_width=True)
+        except Exception:
+            st.warning("Imagem explicativa do XGBoost não encontrada.")
+
+    st.divider()
+
+    st.header("🏆 Performance e Estabilidade")
+    with st.container(border=True):
+        c1, c2 = st.columns(2)
+        with c1:
+            st.metric("Acurácia de Teste", "96%")
+        with c2:
+            st.metric("Acurácia Média (CV)", "97.1%")
+        
+        st.write("""
+        A proximidade entre a acurácia de teste e a média da validação cruzada indica um modelo **robusto**, 
+        que não sofre de overfitting (quando o modelo decora os dados mas não aprende de verdade).
+        """)
+
+    st.subheader("📈 Estabilidade do Modelo (Cross-Validation)")
+    with st.container(border=True):
+        st.write("""
+        O gráfico abaixo mostra como o modelo se comportou em 5 diferentes "dobras" (folds) dos dados. 
+        A consistência dos resultados (todos acima de 95%) prova que a inteligência é capaz de generalizar o conhecimento para novos perfis de pacientes.
+        """)
+        try:
+            img_cv = Image.open('cv_stability.png')
+            st.image(img_cv, caption="Consistência da Acurácia por Fold", use_container_width=True)
+        except:
+            st.warning("Gráfico de estabilidade não encontrado.")
+
+    st.divider()
+
     st.header("🔍 O que mais influencia a classificação?")
     st.write("""
     Utilizamos algoritmos de importância de atributos para identificar quais comportamentos e características são os maiores direcionadores de obesidade no modelo. 
-    Entender esses fatores é crucial para direcionar intervenções de saúde pública ou personalizadas.
     """)
 
     try:
         img_importance = Image.open('feature_importance.png')
-        st.image(img_importance, caption="Top 10 Fatores de Influência", use_container_width=True)
+        st.image(img_importance, caption="Principais Fatores de Influência", use_container_width=True)
     except:
         st.warning("Imagem de importância das features não encontrada.")
 
     st.subheader("📚 Interpretação dos Principais Insights")
     with st.container(border=True):
         st.write("""
-        - **Gênero e Peso**: Como esperado, são pilares fundamentais para a determinação do IMC e do nível de obesidade associado.
-        - **Consumo entre refeições (CAEC)**: O hábito de não comer entre as refeições apareceu como um forte diferencial na estabilidade do peso.
-        - **Consumo de Vegetais (FCVC)**: A frequência de consumo de vegetais é um dos indicadores dietéticos mais fortes para a saúde metabólica.
-        - **Atividade Física (FAF) e Hidratação (CH2O)**: Embora em escalas menores, estes fatores completam o perfil de risco do indivíduo.
+        - **Gênero e Peso**: Pilares fundamentais para a determinação biológica do nível de peso.
+        - **Consumo entre refeições (CAEC)**: O hábito de "lanchar" frequentemente é um dos maiores divisores de águas no modelo.
+        - **Consumo de Vegetais (FCVC)**: Reflete diretamente na saúde metabólica e controle calórico.
+        - **Atividade Física (FAF)**: Embora secundária ao peso e dieta, é o principal fator de manutenção e prevenção.
         """)
 
 
     st.divider()
 
-    # --- Desempenho Técnico ---
-    st.header("📊 Confiabilidade e Precisão do Modelo")
+    st.header("📊 Detalhamento de Assertividade")
     
-    st.write("""
-    Para garantir que o modelo é seguro para tomada de decisão, avaliamos seu desempenho sob duas perspectivas principais: 
-    a **assertividade por categoria** e a **qualidade geral das previsões**.
-    """)
-
-    # --- Container 1: Matriz de Confusão ---
-    st.subheader("📍 Mapa de Assertividade (Real vs. Predito)")
+    st.subheader("📍 Mapa de Diagnóstico (Real vs. Inteligência)")
     with st.container(border=True):
         st.write("""
-        Este mapa (conhecido tecnicamente como Matriz de Confusão) mostra o cruzamento entre o que o indivíduo **realmente é** e o que o modelo **previu**. 
-        - **Na diagonal central**: Estão os acertos (onde o modelo e a realidade coincidem).
-        - **Fora da diagonal**: Estão os raros casos de erro, geralmente confundindo categorias vizinhas (ex: Sobrepeso I com Sobrepeso II), o que demonstra que o modelo é coerente mesmo quando erra.
+        Este mapa mostra onde a inteligência acerta e onde ocorrem as raras "confusões".
+        - **Acertos Implacáveis**: A linha diagonal mostra que quase todos os pacientes são classificados corretamente.
+        - **Margem de Erro Coerente**: Quando o modelo erra, ele geralmente aponta para um nível vizinho (ex: confunde Obesidade I com II), nunca cometendo erros grosseiros (como confundir Peso Abaixo com Obesidade III).
         """)
         try:
             img_cm = Image.open('confusion_matrix.png')
-            st.image(img_cm, caption="Visualização da Precisão por Nível de Peso", use_container_width=True)
+            st.image(img_cm, caption="Matriz de Assertividade do Modelo", use_container_width=True)
         except:
             st.warning("Imagem da matriz de assertividade não encontrada.")
 
-    # --- Container 2: Relatório de Classificação ---
-    st.subheader("📈 Métricas de Qualidade por Categoria")
+    st.subheader("📉 Resultados por Categoria de Saúde")
     with st.container(border=True):
         st.write("""
-        Aqui detalhamos a "nota" do modelo para cada classe de peso. Utilizamos dois indicadores principais:
-        1. **Confiança (Precisão)**: Quando o modelo diz que é "Obesidade I", qual a chance de ele estar certo? (No nosso caso, entre 83% e 100%).
-        2. **Abrangência (Recall)**: De todos os casos reais de "Peso Normal", quantos o modelo conseguiu identificar corretamente?
+        Abaixo, detalhamos a capacidade do modelo de identificar cada perfil específico:
+        - **Assertividade (Confiança)**: Indica a segurança da IA ao emitir um diagnóstico. Chega a **100%** em casos de Obesidade Crítica.
+        - **Recuperação (Identificação)**: Mostra se o modelo foi capaz de encontrar todos os casos reais daquela categoria.
         """)
         
-        # Static table based on notebook results
         report_data = {
-            'Nível de Peso': ['Abaixo do Peso', 'Peso Normal', 'Sobrepeso I', 'Sobrepeso II', 'Obesidade I', 'Obesidade II', 'Obesidade III'],
-            'Confiança (Precisão)': ['96%', '83%', '97%', '98%', '100%', '98%', '98%'],
-            'Abrangência (Recall)': ['91%', '95%', '99%', '98%', '98%', '90%', '98%']
+            'Categoria de Saúde': ['Abaixo do Peso', 'Peso Normal', 'Sobrepeso I', 'Sobrepeso II', 'Obesidade I', 'Obesidade II', 'Obesidade III'],
+            'Assertividade (Confiança)': ['96%', '83%', '97%', '98%', '100%', '98%', '98%'],
+            'Recuperação (Identificação)': ['91%', '95%', '99%', '98%', '98%', '90%', '98%']
         }
         st.table(pd.DataFrame(report_data))
-        
-        st.write("**Conclusão**: O modelo demonstra uma performance excepcional, especialmente para identificar níveis críticos de obesidade, onde a precisão chega a 100%.")
+
 if __name__ == "__main__":
     show()
 else:
