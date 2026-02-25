@@ -10,9 +10,9 @@ def load_data():
     df["BMI"] = df["Weight"] / (df["Height"] ** 2)
     
     def risk_group(row):
-        if row["Obesity_level"] in ["Insufficient_Weight", "Normal_Weight"]:
+        if row["Obesity"] in ["Insufficient_Weight", "Normal_Weight"]:
             return "Baixo Risco"
-        elif row["Obesity_level"] in ["Overweight_Level_I", "Overweight_Level_II"]:
+        elif row["Obesity"] in ["Overweight_Level_I", "Overweight_Level_II"]:
             return "Risco Moderado"
         else:
             return "Alto Risco"
