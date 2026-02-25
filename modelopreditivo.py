@@ -85,31 +85,45 @@ def show():
     st.divider()
 
     # --- Desempenho Técnico ---
-    st.header("📊 Detalhamento Técnico")
+    st.header("📊 Confiabilidade e Precisão do Modelo")
     
-    tab1, tab2 = st.tabs(["Matriz de Confusão", "Relatório de Classificação"])
-    
-    with tab1:
-        st.write("A matriz abaixo mostra onde o modelo acerta e onde ocorrem as raras confusões entre categorias próximas.")
+    st.write("""
+    Para garantir que o modelo é seguro para tomada de decisão, avaliamos seu desempenho sob duas perspectivas principais: 
+    a **assertividade por categoria** e a **qualidade geral das previsões**.
+    """)
+
+    # --- Container 1: Matriz de Confusão ---
+    st.subheader("📍 Mapa de Assertividade (Real vs. Predito)")
+    with st.container(border=True):
+        st.write("""
+        Este mapa (conhecido tecnicamente como Matriz de Confusão) mostra o cruzamento entre o que o indivíduo **realmente é** e o que o modelo **previu**. 
+        - **Na diagonal central**: Estão os acertos (onde o modelo e a realidade coincidem).
+        - **Fora da diagonal**: Estão os raros casos de erro, geralmente confundindo categorias vizinhas (ex: Sobrepeso I com Sobrepeso II), o que demonstra que o modelo é coerente mesmo quando erra.
+        """)
         try:
             img_cm = Image.open('confusion_matrix.png')
-            st.image(img_cm, caption="Precisão por Categoria (Real vs Predito)", use_container_width=True)
+            st.image(img_cm, caption="Visualização da Precisão por Nível de Peso", use_container_width=True)
         except:
-            st.warning("Imagem da matriz de confusão não encontrada.")
-            
-    with tab2:
-        st.write("O modelo apresenta um **F1-Score médio de 0.96**, indicando um ótimo equilíbrio entre sensibilidade e precisão em todas as 7 classes de peso.")
+            st.warning("Imagem da matriz de assertividade não encontrada.")
+
+    # --- Container 2: Relatório de Classificação ---
+    st.subheader("📈 Métricas de Qualidade por Categoria")
+    with st.container(border=True):
+        st.write("""
+        Aqui detalhamos a "nota" do modelo para cada classe de peso. Utilizamos dois indicadores principais:
+        1. **Confiança (Precisão)**: Quando o modelo diz que é "Obesidade I", qual a chance de ele estar certo? (No nosso caso, entre 83% e 100%).
+        2. **Abrangência (Recall)**: De todos os casos reais de "Peso Normal", quantos o modelo conseguiu identificar corretamente?
+        """)
         
         # Static table based on notebook results
         report_data = {
-            'Categoria': ['Insuficiente', 'Normal', 'Sobrepeso I', 'Sobrepeso II', 'Obesidade I', 'Obesidade II', 'Obesidade III'],
-            'Precisão': ['0.96', '0.83', '0.97', '0.98', '1.00', '0.98', '0.98'],
-            'Recall': ['0.91', '0.95', '0.99', '0.98', '0.98', '0.90', '0.98']
+            'Nível de Peso': ['Abaixo do Peso', 'Peso Normal', 'Sobrepeso I', 'Sobrepeso II', 'Obesidade I', 'Obesidade II', 'Obesidade III'],
+            'Confiança (Precisão)': ['96%', '83%', '97%', '98%', '100%', '98%', '98%'],
+            'Abrangência (Recall)': ['91%', '95%', '99%', '98%', '98%', '90%', '98%']
         }
         st.table(pd.DataFrame(report_data))
-
-    st.info("💡 **Ação**: Utilize estes insights para focar em políticas de conscientização sobre o consumo de vegetais e a redução de lanches entre as refeições.")
-
+        
+        st.write("**Conclusão**: O modelo demonstra uma performance excepcional, especialmente para identificar níveis críticos de obesidade, onde a precisão chega a 100%.")
 if __name__ == "__main__":
     show()
 else:
