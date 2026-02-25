@@ -1,0 +1,36 @@
+import pandas as pd
+import numpy as np
+
+df = pd.read_csv("Obesity.csv")
+
+df["BMI"] = df["Weight"] / (df["Height"] ** 2)
+
+##==##
+def risk_group(row):
+    if row["Obesity_level"] in ["Insufficient_Weight", "Normal_Weight"]:
+        return "Baixo Risco"
+    elif row["Obesity_level"] in ["Overweight_Level_I", "Overweight_Level_II"]:
+        return "Risco Moderado"
+    else:
+        return "Alto Risco"
+
+df["Risk_Group"] = df.apply(risk_group, axis=1)
+##==##
+
+total_pacientes = len(df)
+alto_risco = df[df["Risk_Group"] == "Alto Risco"]
+percentual_alto_risco = len(alto_risco) / total_pacientes * 100
+bmi_medio = df["BMI"].mean()
+idade_media_alto_risco = alto_risco["Age"].mean()
+
+##==##
+
+corr_bmi = df.corr(numeric_only=True)["BMI"].sort_values(ascending=False)
+corr_bmi
+
+##==##
+
+perfil_alto_risco = alto_risco.describe()
+perfil_alto_risco
+
+##==##
