@@ -132,21 +132,6 @@ def show():
         except:
             st.warning("Imagem da matriz de assertividade não encontrada.")
 
-    st.subheader("📉 Resultados por Categoria de Saúde")
-    with st.container(border=True):
-        st.write("""
-        Abaixo, detalhamos a capacidade do modelo de identificar cada perfil específico:
-        - **Assertividade (Confiança)**: Indica a segurança da IA ao emitir um diagnóstico. Chega a **100%** em casos de Obesidade Crítica.
-        - **Recuperação (Identificação)**: Mostra se o modelo foi capaz de encontrar todos os casos reais daquela categoria.
-        """)
-        
-        report_data = {
-            'Categoria de Saúde': ['Abaixo do Peso', 'Peso Normal', 'Sobrepeso I', 'Sobrepeso II', 'Obesidade I', 'Obesidade II', 'Obesidade III'],
-            'Assertividade (Confiança)': ['96%', '83%', '97%', '98%', '100%', '98%', '98%'],
-            'Recuperação (Identificação)': ['91%', '95%', '99%', '98%', '98%', '90%', '98%']
-        }
-        st.table(pd.DataFrame(report_data))
-
 if __name__ == "__main__":
     show()
 else:
