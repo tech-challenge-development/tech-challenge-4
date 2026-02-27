@@ -34,8 +34,15 @@ def show():
         - **CALC (Álcool)**: Hrequência de consumo de bebidas alcoólicas.
         - **MTRANS (Transporte)**: Meio de locomoção predominante (Caminhada, Transporte Público, Particular, etc.).
 
-        ### Classificação de Saída (Alvo)
-        - **Níveis de Peso**: Do *Peso Insuficiente* à *Obesidade Tipo III*, cobrindo todo o espectro do IMC.
+         ### Variável Alvo
+        - **Obesity (Nível de Obesidade)**: 
+            - *Insufficient_Weight* (Abaixo do peso)
+            - *Normal_Weight* (Peso normal)
+            - *Overweight_Level_I* (Sobrepeso I)
+            - *Overweight_Level_II* (Sobrepeso II)
+            - *Obesity_Type_I* (Obesidade I)
+            - *Obesity_Type_II* (Obesidade II)
+            - *Obesity_Type_III* (Obesidade III)
         """)
 
     st.divider()
