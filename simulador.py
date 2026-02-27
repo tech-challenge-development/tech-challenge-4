@@ -21,7 +21,7 @@ with st.form("form_predicao"):
         height = st.number_input("Altura (m)", min_value=0.00, max_value=3.00, value=1.70, step=0.01)
     
     with col2:
-        weight = st.number_input("Peso (kg)", min_value=0.0, max_value=1000.0, value=70.0, step=0.1)
+        weight = st.number_input("Peso (kg)", min_value=0, max_value=600, value=70, step=1)
         family_history = st.selectbox("Histórico familiar de sobrepeso", ["Sim", "Não"])
 
     st.subheader("🍎 Hábitos Alimentares e Consumo")
@@ -70,9 +70,9 @@ if submitted:
 
     data = {
         'Gender': [map_gender[gender]], 'Age': [age], 'Height': [height], 'Weight': [weight],
-        'family_history': [map_yes_no[family_history]], 'FAVC': [map_yes_no[favc]], 'FCVC': [float(fcvc)],
-        'NCP': [float(ncp)], 'CAEC': [map_caec_calc[caec]], 'SMOKE': [map_yes_no[smoke]], 'CH2O': [float(ch2o)], 'SCC': [map_yes_no[scc]],
-        'FAF': [float(faf)], 'TUE': [float(tue)], 'CALC': [map_caec_calc[calc]], 'MTRANS': [map_mtrans[mtrans]]
+        'family_history': [map_yes_no[family_history]], 'FAVC': [map_yes_no[favc]], 'FCVC': [int(fcvc)],
+        'NCP': [int(ncp)], 'CAEC': [map_caec_calc[caec]], 'SMOKE': [map_yes_no[smoke]], 'CH2O': [int(ch2o)], 'SCC': [map_yes_no[scc]],
+        'FAF': [int(faf)], 'TUE': [int(tue)], 'CALC': [map_caec_calc[calc]], 'MTRANS': [map_mtrans[mtrans]]
     }
     df_input = pd.DataFrame(data)
     
