@@ -6,7 +6,7 @@ pg = st.navigation([
     st.Page("introducao.py", title="Introdução", icon="📖"),
     st.Page("oms.py", title="Obesidade e seus Fatores (OMS)", icon="⚕️"),
     st.Page("analisexploratoriadedados.py", title="Analise Exploratória de Dados (EDA)", icon="📊"),
-    st.Page("modelopreditivo.py", title="Modelo Preditivo", icon="📝"),
+    st.Page("modelopreditivov2.py", title="Modelo Preditivo", icon="📝"),
     st.Page("simulador.py", title="Simulador Interativo", icon="💻"),
     st.Page("conclusao.py", title="Conclusão", icon="🎯")
 ])
