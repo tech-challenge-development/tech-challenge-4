@@ -1,106 +1,35 @@
 import streamlit as st
-import pandas as pd
-import plotly.express as px
 
-st.set_page_config(layout="wide")
+st.markdown("<h1 style='color: #d94e41;'>Introdução</h1>", unsafe_allow_html=True)
+st.divider()
 
-@st.cache_data
-def load_data():
-    df = pd.read_csv("Obesity.csv")
-    df["BMI"] = df["Weight"] / (df["Height"] ** 2)
-    
-    def risk_group(row):
-        if row["Obesity"] in ["Insufficient_Weight", "Normal_Weight"]:
-            return "Baixo Risco"
-        elif row["Obesity"] in ["Overweight_Level_I", "Overweight_Level_II"]:
-            return "Risco Moderado"
-        else:
-            return "Alto Risco"
-    
-    df["Risk_Group"] = df.apply(risk_group, axis=1)
-    return df
+st.markdown("### 🎯 Objetivo da Análise")
 
-df = load_data()
+st.write("""
+O painel analítico foi desenvolvido para apoiar a equipe médica na identificação de padrões comportamentais 
+associados ao excesso de peso na população analisada.
 
-##==##
+A análise permite compreender o perfil atual dos pacientes, identificar fatores modificáveis 
+e direcionar estratégias preventivas baseadas em dados.
+""")
 
-st.sidebar.header("Filtros Clínicos")
+st.markdown("### 🧩 Principais Insights Obtidos")
 
-gender = st.sidebar.multiselect(
-    "Gênero",
-    df["Gender"].unique(),
-    default=df["Gender"].unique()
-)
+st.write("""
+• Alta prevalência de sobrepeso e obesidade na base analisada.  
+• Redução progressiva da atividade física conforme aumento da classificação de peso.  
+• Maior frequência de consumo de alimentos hipercalóricos nos grupos com obesidade.  
+• Padrões alimentares entre refeições associados ao excesso de peso.
 
-df = df[df["Gender"].isin(gender)]
+Além dos principais Insights descritos acima, o relatório possui indicadores de correlação e intensidade para cada um dos fatores presentes na pesquisa, mas não identificados como relevantes no momento.
+Esses indicadores permitirão o acompanhamento frequente de novas variáveis e a identificação de padrões de comportamento que possam alterar o resultado na população diagnosticada.
+""")
 
-##==##
+st.divider()
 
-st.title("Painel Clínico de Avaliação de Risco de Obesidade")
-st.markdown("Sistema de apoio à decisão médica")
-st.markdown("---")
+st.markdown("### 📊 Acessar Painel Analítico")
 
-##===##
+dashboard_url = "https://app.powerbi.com/links/j-Wq19ONy3?ctid=11dbbfe2-89b8-4549-be10-cec364e59551&pbi_source=linkShare"
 
-col1, col2, col3, col4 = st.columns(4)
-
-col1.metric("Total de Pacientes", len(df))
-
-alto_risco = df[df["Risk_Group"] == "Alto Risco"]
-
-col2.metric("% Alto Risco", f"{round(len(alto_risco)/len(df)*100,1)}%")
-
-col3.metric("BMI Médio", round(df["BMI"].mean(),2))
-
-col4.metric("Idade Média Alto Risco", round(alto_risco["Age"].mean(),1))
-
-##==##
-
-st.subheader("Distribuição de Risco Clínico")
-
-fig = px.pie(df, names="Risk_Group",
-             title="Classificação de Risco da População Avaliada")
-
-st.plotly_chart(fig, use_container_width=True)
-
-##==##
-
-st.subheader("Impacto da Atividade Física no Risco")
-
-fig2 = px.box(
-    df,
-    x="Risk_Group",
-    y="FAF",
-    title="Redução da Atividade Física nos Grupos de Maior Risco"
-)
-
-st.plotly_chart(fig2, use_container_width=True)
-
-##==##
-
-st.subheader("Tempo de Tela e Severidade")
-
-fig3 = px.box(
-    df,
-    x="Risk_Group",
-    y="TER",
-    title="Aumento do Tempo de Tela nos Grupos de Alto Risco"
-)
-
-st.plotly_chart(fig3, use_container_width=True)
-
-##==##
-
-st.subheader("Correlação entre Variáveis Numéricas")
-
-corr = df.corr(numeric_only=True)
-
-fig4 = px.imshow(corr, text_auto=True)
-
-st.plotly_chart(fig4, use_container_width=True)
-
-##==##
-
-st.subheader("Perfil Estatístico - Pacientes Alto Risco")
-
-st.dataframe(alto_risco.describe())
+st.link_button("🔎 Visualizar Dashboard Interativo", dashboard_url)
+st.caption("Para acessar o painel é necessário o login com um usuário com domínio FIAP.com.br")
