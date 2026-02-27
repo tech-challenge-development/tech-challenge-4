@@ -7,130 +7,119 @@ def show():
     st.divider()
 
     st.write("""
-    O objetivo foi um modelo de inteligência artificial capaz de classificar o nível de obesidade de um indivíduo com alta precisão, 
-    baseando-se em seus hábitos de vida, características demográficas e físicas.
+    Desenvolvemos um modelo de inteligência artificial de alta performance para classificar o nível de obesidade de forma precisa. 
+    A solução integra características físicas, hábitos alimentares e estilo de vida para fornecer um diagnóstico automatizado e confiável.
     """)
 
-    st.header("📖 Dicionário de Dados")
+    st.header("📖 Dicionário de Variáveis")
     with st.container(border=True):
         st.markdown("""
-        ### Características Pessoais e Demográficas
-        - **Gender (Gênero)**: Sexo biológico (Female, Male).
-        - **Age (Idade)**: Idade em anos (14–61).
-        - **Height (Altura)**: Altura em metros (1.45–1.98 m).
-        - **Weight (Peso)**: Peso em quilogramas (39–173 kg).
-        - **family_history (Histórico Familiar)**: Histórico familiar de excesso de peso (yes/no).
+        ### Perfil Demográfico e Físico
+        - **Gender (Gênero)**: Identificação biológica (Female/Male).
+        - **Age (Idade)**: Faixa etária analisada (14–61 anos).
+        - **Height (Altura)**: Estatura em metros (1.45–1.98 m).
+        - **Weight (Peso)**: Massa corporal em quilogramas (39–173 kg).
+        - **family_history (Histórico Familiar)**: Presença de casos de excesso de peso na família.
 
-        ### Hábitos Alimentares e Estilo de Vida
-        - **FAVC (Alimentos Calóricos)**: Consumo frequente de alimentos muito calóricos (yes/no).
-        - **FCVC (Vegetais)**: Frequência de consumo de vegetais (1: raramente, 2: às vezes, 3: sempre).
-        - **NCP (Refeições Principais)**: Número de refeições principais por dia (1 a 4 ou mais).
-        - **CAEC (Lanches entre Refeições)**: Frequência de lanches entre as refeições (no, Sometimes, Frequently, Always).
-        - **SMOKE (Fumante)**: Hábito de fumar (yes/no).
-        - **CH2O (Água)**: Consumo diário de água (1: < 1L, 2: 1–2L, 3: > 2L).
-        - **SCC (Monitoramento Calórico)**: Monitora a ingestão calórica diária (yes/no).
-        - **FAF (Atividade Física)**: Frequência semanal de atividade física (0: nenhuma, 1: 1–2x, 2: 3–4x, 3: 5x+).
-        - **TUE (Dispositivos Eletrônicos)**: Tempo diário usando eletrônicos (0: 0–2h, 1: 3–5h, 2: > 5h).
-        - **CALC (Álcool)**: Consumo de bebida alcoólica (no, Sometimes, Frequently, Always).
-        - **MTRANS (Transporte)**: Meio de transporte habitual (Automobile, Motorbike, Bike, Public_Transportation, Walking).
+        ### Comportamentos e Estilo de Vida
+        - **FAVC (Alimentos Calóricos)**: Consumo frequente de alimentos com alta densidade energética.
+        - **FCVC (Vegetais)**: Frequência de ingestão de vegetais (1: Raramente a 3: Sempre).
+        - **NCP (Refeições)**: Número de refeições principais ao longo do dia.
+        - **CAEC (Lanches)**: Frequência de consumo de alimentos entre as refeições principais.
+        - **SMOKE (Tabagismo)**: Hábito de fumar.
+        - **CH2O (Hidratação)**: Consumo diário de água (1: < 1L a 3: > 2L).
+        - **SCC (Monitoramento)**: Hábito de monitorar a ingestão calórica diária.
+        - **FAF (Atividade Física)**: Frequência semanal de exercícios (0: Nenhuma a 3: Alta).
+        - **TUE (Eletrônicos)**: Tempo diário dedicado ao uso de dispositivos tecnológicos.
+        - **CALC (Álcool)**: Hrequência de consumo de bebidas alcoólicas.
+        - **MTRANS (Transporte)**: Meio de locomoção predominante (Caminhada, Transporte Público, Particular, etc.).
 
-        ### Variável Alvo
-        - **Obesity (Nível de Obesidade)**: 
-            - *Insufficient_Weight* (Abaixo do peso)
-            - *Normal_Weight* (Peso normal)
-            - *Overweight_Level_I* (Sobrepeso I)
-            - *Overweight_Level_II* (Sobrepeso II)
-            - *Obesity_Type_I* (Obesidade I)
-            - *Obesity_Type_II* (Obesidade II)
-            - *Obesity_Type_III* (Obesidade III)
+        ### Classificação de Saída (Alvo)
+        - **Níveis de Peso**: Do *Peso Insuficiente* à *Obesidade Tipo III*, cobrindo todo o espectro do IMC.
         """)
 
     st.divider()
 
-    st.header("🤖 A Inteligência por trás da Decisão")
+    st.header("🤖 Inteligência da Solução: O Algoritmo XGBoost")
     with st.container(border=True):
         st.write("""
-        Para este desafio, selecionamos o **XGBoost**, uma das machine learning mais avançadas e respeitadas em ciência de dados. 
+        A solução utiliza o **XGBoost (Extreme Gradient Boosting)**, um dos algoritmos de aprendizado de máquina mais robustos e eficientes do mercado.
         
-        Imagine o XGBoost como um **"Conselho de Especialistas Digital"**.
-        Em vez de uma única análise, ele cria centenas de pequenos analistas que trabalham em conjunto. 
-        O grande diferencial é que cada novo "especialista" aprende com as dificuldades do anterior, refinando as previsões sucessivamente. 
-        
-        Essa abordagem de **Refinamento Contínuo** é o que permite ao modelo atingir uma precisão cirúrgica, sendo ideal para lidar com a complexidade dos múltiplos fatores que influenciam a saúde e o peso.
+        **Como ele decide?**
+        Visualize o XGBoost como uma **comissão técnica altamente especializada**. Em vez de uma única decisão isolada, o modelo constrói uma sequência de modelos preditivos onde cada um corrige os erros do anterior. 
+        Este processo de refinamento iterativo garante que a classificação final considere a interdependência complexa entre todos os hábitos do indivíduo, resultando em uma assertividade superior.
         """)
 
         try:
             img_xgboost = Image.open('xgboot.png')
-            st.image(img_xgboost, caption="Funcionamento do algoritmo XGBoost", use_container_width=True)
+            st.image(img_xgboost, caption="Arquitetura de decisão sequencial do XGBoost", use_container_width=True)
         except Exception:
-            st.warning("Imagem explicativa do XGBoost não encontrada.")
+            st.warning("Diagrama do XGBoost não encontrado.")
 
     st.divider()
 
-    st.header("🏆 Performance e Estabilidade")
+    st.header("🏆 Performance e Confiabilidade")
     with st.container(border=True):
         c1, c2 = st.columns(2)
         with c1:
-            st.metric("Acurácia de Teste", "96%")
+            st.metric("Acurácia Geral", "96.21%")
         with c2:
-            st.metric("Acurácia Média (CV)", "97.1%")
+            st.metric("Estabilidade Média (CV)", "96.33%")
         
         st.write("""
-        A proximidade entre a acurácia de teste e a média da validação cruzada indica um modelo **robusto**, 
-        que não sofre de overfitting (quando o modelo decora os dados mas não aprende de verdade).
+        A consistência entre os dados de teste e a validação cruzada confirma que o modelo é **altamente confiável**. Ele possui uma excelente capacidade de generalização, o que significa que está pronto para classificar novos perfis de usuários com o mesmo nível de precisão.
         """)
 
-    st.subheader("📈 Estabilidade do Modelo (Cross-Validation)")
+    st.subheader("📈 Estabilidade via Validação Cruzada (Temporal)")
     with st.container(border=True):
         st.write("""
-        O gráfico abaixo mostra como o modelo se comportou em 5 diferentes "dobras" (folds) dos dados. 
-        A consistência dos resultados (todos acima de 95%) prova que a inteligência é capaz de generalizar o conhecimento para novos perfis de pacientes.
+        O monitoramento por "folds" (divisões de dados) demonstra que o modelo mantém sua performance acima de 95% em diferentes cenários, reforçando a segurança biológica das previsões.
         """)
         try:
             img_cv = Image.open('cv_stability.png')
-            st.image(img_cv, caption="Consistência da Acurácia por Fold", use_container_width=True)
+            st.image(img_cv, caption="Estabilidade da Acurácia em Diferentes Amostras", use_container_width=True)
         except:
             st.warning("Gráfico de estabilidade não encontrado.")
 
     st.divider()
 
-    st.header("🔍 O que mais influencia a classificação?")
+    st.header("🔍 Direcionadores de Classificação")
     st.write("""
-    Utilizamos algoritmos de importância de atributos para identificar quais comportamentos e características são os maiores direcionadores de obesidade no modelo. 
+    Identificamos os fatores que mais pesam na decisão do modelo. Compreender esses direcionadores é fundamental para entender o comportamento da IA.
     """)
 
     try:
         img_importance = Image.open('feature_importance.png')
-        st.image(img_importance, caption="Principais Fatores de Influência", use_container_width=True)
+        st.image(img_importance, caption="Top 15 Fatores que Direcionam a Classificação", use_container_width=True)
     except:
-        st.warning("Imagem de importância das features não encontrada.")
+        st.warning("Gráfico de importância de variáveis não encontrado.")
 
-    st.subheader("📚 Interpretação dos Principais Insights")
+    st.subheader("📚 Insights Estratégicos")
     with st.container(border=True):
         st.write("""
-        - **Gênero e Peso**: Pilares fundamentais para a determinação biológica do nível de peso.
-        - **Consumo entre refeições (CAEC)**: O hábito de "lanchar" frequentemente é um dos maiores divisores de águas no modelo.
-        - **Consumo de Vegetais (FCVC)**: Reflete diretamente na saúde metabólica e controle calórico.
-        - **Atividade Física (FAF)**: Embora secundária ao peso e dieta, é o principal fator de manutenção e prevenção.
+        - **Peso e Gênero**: Como esperado, são os indicadores estruturais mais fortes.
+        - **Influência do Meio de Transporte**: A locomoção ativa (como caminhar) aparece como um preditor positivo de saúde extremamente relevante.
+        - **Hábito de Lanches (CAEC)**: A frequência de alimentação entre as refeições principais é um divisor crítico entre os níveis de sobrepeso e obesidade.
+        - **Consumo de Vegetais e Hidratação**: Fatores que o modelo identifica como cruciais para a estabilidade metabólica.
         """)
 
 
     st.divider()
 
-    st.header("📊 Detalhamento de Assertividade")
+    st.header("📊 Matriz de Assertividade")
     
-    st.subheader("📍 Mapa de Diagnóstico (Real vs. Inteligência)")
+    st.subheader("📍 Realidade vs. Predição")
     with st.container(border=True):
         st.write("""
-        Este mapa mostra onde a inteligência acerta e onde ocorrem as raras "confusões".
-        - **Acertos Implacáveis**: A linha diagonal mostra que quase todos os pacientes são classificados corretamente.
-        - **Margem de Erro Coerente**: Quando o modelo erra, ele geralmente aponta para um nível vizinho (ex: confunde Obesidade I com II), nunca cometendo erros grosseiros (como confundir Peso Abaixo com Obesidade III).
+        A Matriz de Confusão abaixo detalha o rigor do modelo em cada categoria:
+        - **Diagonal Dominante**: A concentração maciça na diagonal prova a alta taxa de acerto em todas as classes.
+        - **Consistência em Erros**: Nos raros casos de erro, o modelo classifica para categorias adjacentes (ex: confundindo Obesidade I com II), o que indica uma interpretação coerente das tendências de massa corporal.
         """)
         try:
             img_cm = Image.open('confusion_matrix.png')
-            st.image(img_cm, caption="Matriz de Assertividade do Modelo", use_container_width=True)
+            st.image(img_cm, caption="Matriz de Confusão: Detalhamento de Acertos por Classe", use_container_width=True)
         except:
-            st.warning("Imagem da matriz de assertividade não encontrada.")
+            st.warning("Matriz de assertividade não encontrada.")
 
 if __name__ == "__main__":
     show()
