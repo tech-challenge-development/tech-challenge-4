@@ -19,8 +19,8 @@ padronizadas variáveis categóricas e estruturadas novas representações numé
 para otimização do desempenho do modelo.
 
 O modelo XGBoost foi selecionado por sua robustez e capacidade de capturar 
-relações não lineares entre variáveis, alcançando performance superior a 90% 
-de acurácia, superando o critério mínimo exigido de 75%.
+relações não lineares entre variáveis, alcançando performance superior a 75% 
+de acurácia, superando o critério mínimo exigido.
 """)
 
 st.markdown("### 📊 Principais Insights Analíticos")
