@@ -129,7 +129,7 @@ def show():
 
     st.header("📊 Matriz de Assertividade Clínica")
     
-    st.subheader("📍 Realidade Nutricional vs. Predição da IA")
+    st.subheader("📍 Realidade vs. Predição da IA")
     with st.container(border=True):
         st.write("""
         A Matriz de Confusão abaixo detalha o rigor do modelo em cada categoria:
@@ -137,10 +137,15 @@ def show():
         - **Tendência de Erros Coerentes**: Quando ocorre divergência, o modelo tende a classificar para categorias vizinhas (ex: Sobrepeso para Obesidade I), o que mantém a coerência clínica da gravidade do quadro.
         """)
         try:
-            img_cm = Image.open('confusion_matrix.png')
-            st.image(img_cm, caption="Matriz de Confusão: Detalhamento de Diagnósticos por Classe", use_container_width=True)
-        except:
-            st.warning("Matriz de assertividade não encontrada.")
+            st.image("confusion_matrix.png", use_container_width=True)
+        except FileNotFoundError:
+            st.warning("Gráfico da Matriz de Confusão não encontrado.")
+
+    st.divider()
+    st.info("""
+    **💡 Visão Humanizada e Estratégica:**
+    "Nosso modelo não olha apenas para o peso, mas para a **'jornada'** do indivíduo. Ele identifica que o histórico familiar e a frequência de lanches são tão determinantes quanto a atividade física no diagnóstico final."
+    """)
 
 if __name__ == "__main__":
     show()
