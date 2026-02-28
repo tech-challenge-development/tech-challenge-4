@@ -71,7 +71,7 @@ def show():
         with c1:
             st.metric("Acurácia Geral", "78.25%")
         with c2:
-            st.metric("Estabilidade Média (CV)", "78.41%")
+            st.metric("Estabilidade Média (CV)", "79.21%")
         
         st.write("""
         A consistência entre os dados de teste e a validação cruzada confirma que o modelo é **altamente confiável** sob a perspectiva de saúde populacional. Ele apresenta uma excelente capacidade de generalização, o que significa que está pronto para classificar novos perfis de usuários com um alto índice de assertividade, suportando decisões clínicas e de bem-estar.
