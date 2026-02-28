@@ -69,62 +69,76 @@ def show():
     with st.container(border=True):
         c1, c2 = st.columns(2)
         with c1:
-            st.metric("Acurácia Geral", "96.21%")
+            st.metric("Acurácia Geral", "78.25%")
         with c2:
-            st.metric("Estabilidade Média (CV)", "96.33%")
+            st.metric("Estabilidade Média (CV)", "78.41%")
         
         st.write("""
-        A consistência entre os dados de teste e a validação cruzada confirma que o modelo é **altamente confiável**. Ele possui uma excelente capacidade de generalização, o que significa que está pronto para classificar novos perfis de usuários com o mesmo nível de precisão.
+        A consistência entre os dados de teste e a validação cruzada confirma que o modelo é **altamente confiável** sob a perspectiva de saúde populacional. Ele apresenta uma excelente capacidade de generalização, o que significa que está pronto para classificar novos perfis de usuários com um alto índice de assertividade, suportando decisões clínicas e de bem-estar.
         """)
 
     st.subheader("📈 Estabilidade via Validação Cruzada (Temporal)")
     with st.container(border=True):
         st.write("""
-        O monitoramento por "folds" (divisões de dados) demonstra que o modelo mantém sua performance acima de 95% em diferentes cenários, reforçando a segurança biológica das previsões.
+        O monitoramento por "folds" (divisões de dados) demonstra que o modelo mantém sua performance estável em diferentes cenários, reforçando a segurança biológica das previsões e a robustez dos indicadores de saúde analisados.
         """)
         try:
             img_cv = Image.open('cv_stability.png')
-            st.image(img_cv, caption="Estabilidade da Acurácia em Diferentes Amostras", use_container_width=True)
+            st.image(img_cv, caption="Estabilidade da Acurácia em Diferentes Amostras de Dados", use_container_width=True)
         except:
             st.warning("Gráfico de estabilidade não encontrado.")
 
     st.divider()
 
     st.header("🔍 Direcionadores de Classificação")
+    
+    with st.container(border=True):
+        st.write("""
+        **💡 Diferencial Estratégico: Foco na Causa, não no Sintoma**
+        
+        Nossa inteligência foi treinada **removendo propositalmente as variáveis de Peso e Altura**. 
+        Diferente de uma calculadora de IMC comum, desafiamos o modelo a identificar a obesidade através de padrões de **comportamento e genética**. 
+        Isso valida nossa solução como uma ferramenta poderosa de **medicina preventiva e análise de risco**, capaz de prever tendências antes mesmo que o ganho de massa ocorra.
+        """)
+
     st.write("""
-    Identificamos os fatores que mais pesam na decisão do modelo. Compreender esses direcionadores é fundamental para entender o comportamento da IA.
+    Abaixo, identificamos os fatores que mais influenciam o diagnóstico do modelo após essa filtragem estratégica.
+    
+    **O que essa análise mostra?**
+    Isso mede o quanto cada variável contribuiu para reduzir a incerteza do modelo. Quanto maior a barra, mais vezes e com mais impacto essa característica foi determinante para decidir a categoria de obesidade de uma pessoa.
     """)
 
     try:
         img_importance = Image.open('feature_importance.png')
-        st.image(img_importance, caption="Top 15 Fatores que Direcionam a Classificação", use_container_width=True)
+        st.image(img_importance, caption="Top 15 Indicadores de Saúde que Direcionam a Classificação", use_container_width=True)
     except:
         st.warning("Gráfico de importância de variáveis não encontrado.")
 
-    st.subheader("📚 Insights Estratégicos")
+    st.subheader("📚 Insights Estratégicos baseados no Modelo")
     with st.container(border=True):
         st.write("""
-        - **Peso e Gênero**: Como esperado, são os indicadores estruturais mais fortes.
-        - **Influência do Meio de Transporte**: A locomoção ativa (como caminhar) aparece como um preditor positivo de saúde extremamente relevante.
-        - **Hábito de Lanches (CAEC)**: A frequência de alimentação entre as refeições principais é um divisor crítico entre os níveis de sobrepeso e obesidade.
-        - **Consumo de Vegetais e Hidratação**: Fatores que o modelo identifica como cruciais para a estabilidade metabólica.
+        - **Histórico Familiar (Preditor Dominante)**: A genética e o ambiente familiar aparecem como o divisor de águas mais forte na predisposição à obesidade.
+        - **Perfil de Gênero**: O modelo detecta variações metabólicas e comportamentais distintas que impactam o ganho de massa de forma diferenciada entre homens e mulheres.
+        - **Hábito de Lanches (CAEC)**: A frequência de consumo extra-refeição é um "gatilho" crítico para o desequilíbrio calórico identificado pela IA.
+        - **Consumo de Vegetais (FCVC)**: O fator com maior peso positivo em termos de proteção e controle metabólico nutricional.
+        - **Mobilidade e Transporte Ativo**: A escolha do meio de condução (como caminhar) é um indicador comportamental de alto impacto na saúde preventiva.
         """)
 
 
     st.divider()
 
-    st.header("📊 Matriz de Assertividade")
+    st.header("📊 Matriz de Assertividade Clínica")
     
-    st.subheader("📍 Realidade vs. Predição")
+    st.subheader("📍 Realidade Nutricional vs. Predição da IA")
     with st.container(border=True):
         st.write("""
         A Matriz de Confusão abaixo detalha o rigor do modelo em cada categoria:
-        - **Diagonal Dominante**: A concentração maciça na diagonal prova a alta taxa de acerto em todas as classes.
-        - **Consistência em Erros**: Nos raros casos de erro, o modelo classifica para categorias adjacentes (ex: confundindo Obesidade I com II), o que indica uma interpretação coerente das tendências de massa corporal.
+        - **Concentração de Precisão**: A diagonal principal destaca onde o modelo acertou com exatidão o diagnóstico.
+        - **Tendência de Erros Coerentes**: Quando ocorre divergência, o modelo tende a classificar para categorias vizinhas (ex: Sobrepeso para Obesidade I), o que mantém a coerência clínica da gravidade do quadro.
         """)
         try:
             img_cm = Image.open('confusion_matrix.png')
-            st.image(img_cm, caption="Matriz de Confusão: Detalhamento de Acertos por Classe", use_container_width=True)
+            st.image(img_cm, caption="Matriz de Confusão: Detalhamento de Diagnósticos por Classe", use_container_width=True)
         except:
             st.warning("Matriz de assertividade não encontrada.")
 
